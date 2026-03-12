@@ -1,6 +1,6 @@
 class_name SelectClassScreen extends Control
 
-@export_file("*.tscn") var start_level = "" ## The level from which the game starts when starting a new game.
+@export_file("*.tscn") var start_level = "res://scenes/levels/playground_01.tscn" ## The level from which the game starts when starting a new game.
 
 var user_prefs: UserPrefs
 
