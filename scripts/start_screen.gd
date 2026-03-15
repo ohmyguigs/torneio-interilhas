@@ -28,7 +28,7 @@ func _check_continue():
 func _on_new_game_button_up() -> void:
 	DataManager.reset_file_data()
 	#SceneManager.swap_scenes(start_level, get_tree().root, self, Const.TRANSITION.FADE_TO_WHITE)
-	SceneManager.swap_scenes("res://scenes/menus/select_class_screen.tscn", get_tree().root, self, Const.TRANSITION.FADE_TO_WHITE)
+	SceneManager.swap_scenes("res://scenes/menus/player_edit_screen.tscn", get_tree().root, self, Const.TRANSITION.FADE_TO_WHITE)
 
 func _on_continue_button_up() -> void:
 	DataManager.load_file_data()

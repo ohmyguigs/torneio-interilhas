@@ -486,6 +486,11 @@ action = "jump"
 function_name = "jump"
 metadata/_custom_type_script = "uid://dlqmc36quropm"
 
+[sub_resource type="LabelSettings" id="LabelSettings_eyb6c"]
+font_size = 13
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+
 [node name="Player" unique_id=445539203 node_paths=PackedStringArray("on_transfer_start", "on_transfer_end", "health_controller", "inventory", "running_particles", "on_attack", "on_fall") groups=["player", "save"] instance=ExtResource("1_fnaeb")]
 y_sort_enabled = false
 script = ExtResource("2_x37y0")
@@ -674,3 +679,18 @@ health_controller = NodePath("../HealthController")
 
 [node name="CollisionShape2D" parent="HurtBox" index="0" unique_id=398080308]
 disabled = false
+
+[node name="player_name_label" type="Label" parent="." index="15" unique_id=1920309669]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -25.5
+offset_top = -55.0
+offset_right = 25.5
+offset_bottom = -32.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Player 1"
+label_settings = SubResource("LabelSettings_eyb6c")

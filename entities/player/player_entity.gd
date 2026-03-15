@@ -7,6 +7,8 @@ extends CharacterEntity
 @export var on_transfer_start: State ## State to enable when player starts transfering.
 @export var on_transfer_end: State ## State to enable when player ends transfering.
 
+@onready var playerNameLabel: Label = %player_name_label
+
 var player_id: int = 1 ## A unique id that is assigned to the player on creation. Player 1 will have player_id = 1 and each additional player will have an incremental id, 2, 3, 4, and so on.
 var equipped = 0 ## The id of the weapon equipped by the player.
 
@@ -18,6 +20,7 @@ func _ready():
 	Globals.transfer_complete.connect(func(): on_transfer_end.enable())
 	Globals.destination_found.connect(func(destination_path): _move_to_destination(destination_path))
 	receive_data(DataManager.get_player_data(player_id))
+	playerNameLabel.text = "Player %s" % player_id
 
 ##Get the player data to save.
 func get_data():

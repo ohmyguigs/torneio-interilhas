@@ -5,6 +5,14 @@ const LANGUAGES: Array = [
 	"it"
 ]
 
+const GUILDS: Array = [
+	"red",
+	"black",
+	"blue",
+	"purple",
+	"yellow"
+]
+
 const SAVE_FILE_BASE_PATH := "user://save"
 
 const PATH = {
