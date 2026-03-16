@@ -13984,7 +13984,7 @@ offset_left = -22.0
 offset_right = 22.0
 offset_bottom = 19.0
 grow_horizontal = 2
-theme_override_constants/margin_left = 10
+theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 42
 
 [node name="TitleBanner" type="TileMapLayer" parent="background/TitleMarginContainer" unique_id=1800860861]
@@ -13997,7 +13997,7 @@ tile_set = SubResource("TileSet_iffle")
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 22
-text = "Gloriso torneio interilha"
+text = "Gloriso torneio interilhas"
 autowrap_trim_flags = 64
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1300508993]

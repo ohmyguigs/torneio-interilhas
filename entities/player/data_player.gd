@@ -7,5 +7,3 @@ class_name DataPlayer
 @export var max_hp: int
 @export var inventory: Array[ContentItem] = []
 @export var equipped: int
-@export var selected_class: String = "pawn"
-@export var selected_guild: String = "red"

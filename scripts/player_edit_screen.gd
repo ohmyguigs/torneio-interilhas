@@ -3,7 +3,6 @@ class_name PlayerEditScreen extends Control
 @export_file("*.tscn") var start_level = "res://scenes/levels/playground_01.tscn" ## The level from which the game starts when starting a new game.
 
 var user_prefs: UserPrefs
-var local_player_data: Dictionary[int, DataPlayer] = {}
 const SELECTED_BUTTON_BG: Color = Color(0.278, 0.671, 0.663)
 const SELECTED_BUTTON_BORDER: Color = Color(0.125, 0.353, 0.353)
 const UNSELECTED_BUTTON_BG: Color = Color(0.788, 0.667, 0.557)
@@ -11,6 +10,11 @@ const UNSELECTED_BUTTON_BORDER: Color = Color(0.306, 0.216, 0.227)
 
 @onready var cancel_button: Button = %Back
 @onready var save_button: Button = %Save
+@onready var dialog_cancel_button: Button = %Cancel
+@onready var dialog_save_button: Button = %Confirm
+@onready var selected_stylebox_to_override = StyleBoxFlat.new()
+@onready var unselected_stylebox_to_override = StyleBoxFlat.new()
+@onready var dialog_modal: Control = %ConfirmModalContainer
 
 # guild buttons
 @onready var red_guild_button: Button = %Red
@@ -62,19 +66,29 @@ const UNSELECTED_BUTTON_BORDER: Color = Color(0.306, 0.216, 0.227)
 
 # labels
 @onready var version_num: Label = %VersionNum
+@onready var selected_player_name: Label = %SelectedPlayerDataLabel
+
+# node save data
+var node_save_data_path: String = "/root/PlayerEditScreen"
+var initial_local_player_data: Dictionary[String, String] = {
+	'selected_guild': 'red',
+	'selected_class': 'pawn',
+	'destination_name': start_level,
+	'player_id': '',
+}
+var local_player_data: Dictionary[String, String] = initial_local_player_data
+
+func get_data():
+	return local_player_data
+
+func receive_data(_data):
+	local_player_data.set('selected_guild', _data.get('selected_guild') if _data.get('selected_guild') else 'red')
+	local_player_data.set('selected_class', _data.get('selected_class') if _data.get('selected_class') else 'pawn')
 
 func handleGuildButtonClick(_selected_guild) -> void:
-	var selected_stylebox_to_override = StyleBoxFlat.new()
-	selected_stylebox_to_override.set_border_width_all(4)
-	selected_stylebox_to_override.bg_color = SELECTED_BUTTON_BG
-	selected_stylebox_to_override.border_color = SELECTED_BUTTON_BORDER
-	var unselected_stylebox_to_override = StyleBoxFlat.new()
-	unselected_stylebox_to_override.set_border_width_all(4)
-	unselected_stylebox_to_override.bg_color = UNSELECTED_BUTTON_BG
-	unselected_stylebox_to_override.border_color = UNSELECTED_BUTTON_BORDER
 	for guild in Const.GUILDS:
 		var log_selected = 'selected' if _selected_guild == guild else 'unselected'
-		print('[handleGuildButtonClick] update %s button color %s' % [guild, log_selected])
+		#print('[handleGuildButtonClick] update %s button color %s' % [guild, log_selected])
 		# update all guild button styles
 		var guild_button_name = guild + '_guild_button'
 		var guild_button = get(guild_button_name)
@@ -87,17 +101,9 @@ func handleGuildButtonClick(_selected_guild) -> void:
 		guild_prop_group.visible = building_visibility_toggle
 
 func handleClassButtonClick(_selected_class) -> void:
-	var selected_stylebox_to_override = StyleBoxFlat.new()
-	selected_stylebox_to_override.set_border_width_all(4)
-	selected_stylebox_to_override.bg_color = SELECTED_BUTTON_BG
-	selected_stylebox_to_override.border_color = SELECTED_BUTTON_BORDER
-	var unselected_stylebox_to_override = StyleBoxFlat.new()
-	unselected_stylebox_to_override.set_border_width_all(4)
-	unselected_stylebox_to_override.bg_color = UNSELECTED_BUTTON_BG
-	unselected_stylebox_to_override.border_color = UNSELECTED_BUTTON_BORDER
 	for _class in Const.CLASSES:
 		var log_selected = 'selected' if _selected_class == _class else 'unselected'
-		print('[handleClassButtonClick] update %s button color %s' % [_class, log_selected])
+		#print('[handleClassButtonClick] update %s button color %s' % [_class, log_selected])
 		# update all class button styles
 		var class_button_name = _class + '_class_button'
 		var class_button = get(class_button_name)
@@ -107,15 +113,31 @@ func handleClassButtonClick(_selected_class) -> void:
 		var prop_visibility_toggle = true if _selected_class == _class else false
 		for _guild in Const.GUILDS:
 			var prop_name = _guild + '_' + _class
-			print('[handleClassButtonClick] update %s prop visibility to %s' % [prop_name, prop_visibility_toggle])
+			#print('[handleClassButtonClick] update %s prop visibility to %s' % [prop_name, prop_visibility_toggle])
 			var prop = get(prop_name)
-			prop.visible = prop_visibility_toggle
+			if prop:
+				prop.visible = prop_visibility_toggle
 
 func _ready() -> void:
 	var version = ProjectSettings.get_setting("application/config/version")
 	version_num.text = "version: %s" % version
-	var saved_player_data = DataManager.get_player_data(1)
-	local_player_data = saved_player_data if saved_player_data else local_player_data
+	selected_stylebox_to_override.set_border_width_all(4)
+	selected_stylebox_to_override.bg_color = SELECTED_BUTTON_BG
+	selected_stylebox_to_override.border_color = SELECTED_BUTTON_BORDER
+	selected_stylebox_to_override.border_blend = true
+	selected_stylebox_to_override.corner_detail = 16
+	unselected_stylebox_to_override.set_border_width_all(4)
+	unselected_stylebox_to_override.bg_color = UNSELECTED_BUTTON_BG
+	unselected_stylebox_to_override.border_color = UNSELECTED_BUTTON_BORDER
+	unselected_stylebox_to_override.border_blend = true
+	unselected_stylebox_to_override.corner_detail = 16
+	if SaveFileManager.save_file_exists():
+		var saved_game_data = DataManager.get_file_data().nodes_data[node_save_data_path]
+		print('[_ready] game saved { guild: %s , class: %s }' % [saved_game_data.selected_guild, saved_game_data.selected_class])
+		if saved_game_data != null:
+			if saved_game_data.selected_guild != null && saved_game_data.selected_class != null:
+				receive_data(saved_game_data)
+
 	var selected_guild = local_player_data.get('selected_guild') if local_player_data.has('selected_guild') else 'red'
 	handleGuildButtonClick(selected_guild)
 	var selected_class = local_player_data.get('selected_class') if local_player_data.has('selected_class') else 'pawn'
@@ -184,11 +206,32 @@ func _on_purple_guild_button_up() -> void:
 	# set display char class color
 
 func _on_save_button_up() -> void:
-	var saved_player_data = DataManager.get_player_data(1)
-	if saved_player_data != null:
-		DataManager.save_player_data(1, local_player_data)
-	else:
-		print("no player 1 :(")
+	var _guild = local_player_data.get('selected_guild')
+	var _class = local_player_data.get('selected_class')
+	var _player_id = 1 # should load actualy
+	selected_player_name.text = "%s %s %d" % [_guild, _class, _player_id]
+	if !dialog_modal.visible:
+		dialog_modal.visible = true
+
+func _on_cancel_button_up() -> void:
+	if dialog_modal.visible:
+		dialog_modal.visible = false
+
+func _on_confirm_button_up() -> void:
+	#var _guild = local_player_data.get('selected_guild')
+	#var _class = local_player_data.get('selected_class')
+	DataManager._save_nodes_data()
+	SceneManager.swap_scenes(start_level, get_tree().root, self, Const.TRANSITION.FADE_TO_WHITE)
+	#var level = DataManager.load_level_data()
+	#if !level:
+		#DataManager.reset_file_data()
+	#DataManager.save_game()
+	#var saved_player_data = DataManager.get_player_data(1)
+	#if saved_player_data != null:
+		#DataManager.save_player_data(1, local_player_data)
+		#SceneManager.swap_scenes(start_level, get_tree().root, self, Const.TRANSITION.FADE_TO_WHITE)
+	#else:
+		#print("no player 1 :(")
 
 func _on_back_button_up() -> void:
 	SceneManager.swap_scenes("res://scenes/menus/start_screen.tscn", get_tree().root, self, Const.TRANSITION.FADE_TO_WHITE)
