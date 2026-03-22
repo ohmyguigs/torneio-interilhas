@@ -1,6 +1,6 @@
 class_name PlayerEditScreen extends Control
 
-@export_file("*.tscn") var start_level = "res://scenes/levels/playground_01.tscn" ## The level from which the game starts when starting a new game.
+@export_file("*.tscn") var start_level = "res://scenes/levels/ilha_01.tscn" ## The level from which the game starts when starting a new game.
 
 var user_prefs: UserPrefs
 const SELECTED_BUTTON_BG: Color = Color(0.278, 0.671, 0.663)
