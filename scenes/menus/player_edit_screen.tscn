@@ -16456,6 +16456,7 @@ layout_mode = 2
 theme_override_constants/separation = 13
 
 [node name="Confirm" type="Button" parent="ConfirmModalContainer/ButtonsContainer/HBoxContainer" unique_id=759341501]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 40)
 layout_mode = 2
 theme_override_constants/outline_size = 5
@@ -16466,6 +16467,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_ng4jn")
 text = "Confirm"
 
 [node name="Cancel" type="Button" parent="ConfirmModalContainer/ButtonsContainer/HBoxContainer" unique_id=1675563083]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 40)
 layout_mode = 2
 theme_override_constants/outline_size = 5

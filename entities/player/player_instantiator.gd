@@ -16,4 +16,6 @@ func _instantiate_player():
 		player.global_position = global_position
 		parent.add_child.call_deferred(player)
 		Globals.player_added_to_scene.emit(player)
+		## maybe not?
+		DataManager.save_game()
 	queue_free()
