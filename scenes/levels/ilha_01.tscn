@@ -49,7 +49,7 @@ script = ExtResource("10_gr1hw")
 items = Array[ExtResource("4_13wrx")]([SubResource("Resource_jyx7v")])
 metadata/_custom_type_script = ExtResource("10_gr1hw")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6fppg"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4s6hh"]
 resource_local_to_scene = true
 shader = ExtResource("12_cwevs")
 shader_parameter/flash_color = Color(1, 1, 1, 1)
@@ -263,7 +263,7 @@ region = Rect2(160, 150, 40, 50)
 atlas = ExtResource("13_178ia")
 region = Rect2(200, 150, 40, 50)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_4s6hh"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_oe8mi"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -557,6 +557,7 @@ point_count = 2
 [node name="Ilha_01" unique_id=1785432289 instance=ExtResource("1_6fppg")]
 
 [node name="GameCamera2D" parent="." index="0"]
+position = Vector2(3, 73)
 limit_left = -1046
 limit_top = -140
 limit_right = 1729
@@ -641,14 +642,14 @@ on_completion = [NodePath("../closed")]
 metadata/_custom_type_script = "uid://cwq4nm0vsv1l5"
 
 [node name="P1" parent="Entities" index="0"]
-position = Vector2(-832, 311)
+position = Vector2(3, 73)
 
 [node name="NPC" parent="Entities" index="1" unique_id=1884426829 instance=ExtResource("11_ts1w2")]
 position = Vector2(64, 120)
 
 [node name="AnimatedSprite2D" parent="Entities/NPC" index="2" unique_id=1449465034]
-material = SubResource("ShaderMaterial_6fppg")
-sprite_frames = SubResource("SpriteFrames_4s6hh")
+material = SubResource("ShaderMaterial_4s6hh")
+sprite_frames = SubResource("SpriteFrames_oe8mi")
 
 [node name="InteractionArea" type="Area2D" parent="Entities/NPC" index="7" unique_id=2094191390]
 z_index = -1

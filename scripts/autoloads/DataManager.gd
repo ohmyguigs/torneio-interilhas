@@ -26,9 +26,9 @@ func reset_file_data():
 func load_file_data():
 	_file = SaveFileManager.load_save_file()
 
-func get_player_data(player_id: int):
+func get_player_data(player_id: String):
 	var player_data = get_file_data().player_data if _file else null
-	if player_data and player_data.size() >= player_id:
+	if player_data and player_data.size() >= 1:
 		return player_data[player_id]
 	return null
 
@@ -86,7 +86,7 @@ func _save_nodes_data():
 				var path = String(node.get_path())
 				get_file_data().nodes_data[path] = node.call(GET_DATA_METHOD)
 
-func save_player_data(player_id: int, data: Dictionary):
+func save_player_data(player_id: String, data: Dictionary):
 	var player_data: DataPlayer = get_player_data(player_id)
 	if player_data:
 		for key in data.keys():

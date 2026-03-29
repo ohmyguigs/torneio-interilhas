@@ -5,7 +5,18 @@
         <meta charset="UTF-8">
     </head>
     <body>
-        <script src="https://cdn.jsdelivr.net/fingerprintjs2/latest/fingerprint2.min.js"></script>
+        <script src="https://openfpcdn.io"></script>
+        <script>
+            async function getBrowserFingerprint(godotCallback) {
+                // Initialize FingerprintJS
+                const fp = await FingerprintJS.load();
+                const result = await fp.get();
+                
+                // Call the Godot callback with the visitorId
+                // Arguments must be passed as an array to Godot
+                godotCallback([result.visitorId]);
+            }
+        </script>
         <canvas id="canvas"></canvas>
         <script src="$GODOT_URL"></script>
         <script>

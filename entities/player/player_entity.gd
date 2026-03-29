@@ -9,7 +9,8 @@ extends CharacterEntity
 
 @onready var playerNameLabel: Label = %player_name_label
 
-var player_id: int = 1 ## A unique id that is assigned to the player on creation. Player 1 will have player_id = 1 and each additional player will have an incremental id, 2, 3, 4, and so on.
+#var player_id: int = 1 ## A unique id that is assigned to the player on creation. Player 1 will have player_id = 1 and each additional player will have an incremental id, 2, 3, 4, and so on.
+var player_id: String = "f176ab7a623960f48c37748dc66f05cf"
 var equipped = 0 ## The id of the weapon equipped by the player.
 var player_edit_node_path: String = "/root/PlayerEditScreen"
 
@@ -21,12 +22,14 @@ func _ready():
 	Globals.transfer_complete.connect(func(): on_transfer_end.enable())
 	Globals.destination_found.connect(func(destination_path): _move_to_destination(destination_path))
 	receive_data(DataManager.get_player_data(player_id))
+	print('[_ready] game saved data { nodes_data: %s }' % DataManager.get_file_data().nodes_data)
 	var saved_game_data = DataManager.get_file_data().nodes_data[player_edit_node_path]
-	#print('[_ready] game saved data { guild: %s, class: %s }' % [saved_game_data.selected_guild, saved_game_data.selected_class])
-	playerNameLabel.text = "%s %s %s" % [
+	if saved_game_data:
+		print('[_ready] game saved data { guild: %s, class: %s }' % [saved_game_data.selected_guild, saved_game_data.selected_class])
+	playerNameLabel.text = "%s %s\n%s" % [
 		saved_game_data.selected_guild if saved_game_data.selected_guild else 'red',
 		saved_game_data.selected_class if saved_game_data.selected_class else 'pawn',
-		player_id
+		str(player_id)
 	]
 
 ##Get the player data to save.

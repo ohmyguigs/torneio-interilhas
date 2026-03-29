@@ -87,7 +87,7 @@ func receive_data(_data):
 
 func handleGuildButtonClick(_selected_guild) -> void:
 	for guild in Const.GUILDS:
-		var log_selected = 'selected' if _selected_guild == guild else 'unselected'
+		#var log_selected = 'selected' if _selected_guild == guild else 'unselected'
 		#print('[handleGuildButtonClick] update %s button color %s' % [guild, log_selected])
 		# update all guild button styles
 		var guild_button_name = guild + '_guild_button'
@@ -102,7 +102,7 @@ func handleGuildButtonClick(_selected_guild) -> void:
 
 func handleClassButtonClick(_selected_class) -> void:
 	for _class in Const.CLASSES:
-		var log_selected = 'selected' if _selected_class == _class else 'unselected'
+		#var log_selected = 'selected' if _selected_class == _class else 'unselected'
 		#print('[handleClassButtonClick] update %s button color %s' % [_class, log_selected])
 		# update all class button styles
 		var class_button_name = _class + '_class_button'
@@ -131,12 +131,12 @@ func _ready() -> void:
 	unselected_stylebox_to_override.border_color = UNSELECTED_BUTTON_BORDER
 	unselected_stylebox_to_override.border_blend = true
 	unselected_stylebox_to_override.corner_detail = 16
-	if SaveFileManager.save_file_exists():
-		var saved_game_data = DataManager.get_file_data().nodes_data[node_save_data_path]
-		print('[_ready] game saved { guild: %s , class: %s }' % [saved_game_data.selected_guild, saved_game_data.selected_class])
-		if saved_game_data != null:
-			if saved_game_data.selected_guild != null && saved_game_data.selected_class != null:
-				receive_data(saved_game_data)
+	#if SaveFileManager.save_file_exists():
+		#var saved_game_data = DataManager.get_file_data().nodes_data[node_save_data_path]
+		#print('[_ready] game saved { guild: %s , class: %s }' % [saved_game_data.selected_guild, saved_game_data.selected_class])
+		#if saved_game_data != null:
+			#if saved_game_data.selected_guild != null && saved_game_data.selected_class != null:
+				#receive_data(saved_game_data)
 
 	var selected_guild = local_player_data.get('selected_guild') if local_player_data.has('selected_guild') else 'red'
 	handleGuildButtonClick(selected_guild)
@@ -208,8 +208,8 @@ func _on_purple_guild_button_up() -> void:
 func _on_save_button_up() -> void:
 	var _guild = local_player_data.get('selected_guild')
 	var _class = local_player_data.get('selected_class')
-	var _player_id = 1 # should load actualy
-	selected_player_name.text = "%s %s %d" % [_guild, _class, _player_id]
+	var _player_id = "f176ab7a623960f48c37748dc66f05cf" # should load actualy
+	selected_player_name.text = "%s %s\n%s" % [_guild, _class, _player_id]
 	if !dialog_modal.visible:
 		dialog_modal.visible = true
 

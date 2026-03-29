@@ -39,7 +39,7 @@ func open_settings_menu():
 	else:
 		push_warning('settings menu already exists in this scene')
 
-func get_player(id: int):
+func get_player(id: String):
 	var players = get_players()
 	var found = players.filter(func(t): return t.player_id == id)
 	var player = found[0] if found.size() > 0 else null
