@@ -14,12 +14,15 @@ var device_fingerprint: String = str(player_id)
 func _ready() -> void:
 	if OS.has_feature("web"):
 		# 1. Create the callback that points to our GDScript function
-		_callback_reference = JavaScriptBridge.create_callback(_on_fingerprint_received)
+		#_callback_reference = JavaScriptBridge.create_callback(_on_fingerprint_received)
 		# 2. Get the 'window' interface to call our JS helper
 		var window = JavaScriptBridge.get_interface("window")
 		# 3. Trigger the JS function we added in the Head Include
-		window.getBrowserFingerprint(_callback_reference)
+		#window.getBrowserFingerprint(_callback_reference)
+		if typeof(window.fpid) == TYPE_STRING:
+			self._on_fingerprint_received(window.fpid)
 	else:
+		# fallback to initial fixed value
 		self._on_fingerprint_received([player_id])
 
 # The callback function MUST take exactly one Array argument
