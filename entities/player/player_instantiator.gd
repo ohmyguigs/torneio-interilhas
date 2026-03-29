@@ -20,7 +20,7 @@ func _ready() -> void:
 		# 3. Trigger the JS function we added in the Head Include
 		#window.getBrowserFingerprint(_callback_reference)
 		if typeof(window.fpid) == TYPE_STRING:
-			self._on_fingerprint_received(window.fpid)
+			self._on_fingerprint_received([window.fpid])
 	else:
 		# fallback to initial fixed value
 		self._on_fingerprint_received([player_id])
